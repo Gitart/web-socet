@@ -133,6 +133,27 @@ func echoHandler(ws *websocket.Conn) {
 ## Html файл
 
 ```html
+<!DOCTYPE HTML>
+<html>
+<head>
+      <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+      <link rel="stylesheet" href="https://getbootstrap.com/docs/4.2/dist/css/bootstrap.min.css" >
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" ></script>
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+      <script src="notify.js"></script>
+      <link rel="stylesheet" href="main.css" >
+
+      <style type="text/css">
+         .soob      {color:#CCC;}
+         .soobnew   {color:#03A9F4;}
+         .soobclose {color:#EE3006;}
+         .soobopen  {color:#E74C3C;}
+         .bul       {font-size: 50px; color: #CCC;}
+         .buln      {font-size: 50px; color: green;}
+      </style> 
+
+
 <script type="text/javascript">
 function WbS(){
                var ws = new WebSocket("ws://localhost:4444/ehs");
@@ -159,7 +180,16 @@ function WbS(){
                   $("#soob").html("Cоединение закрылось.");
                };
       }
-</script>  
+</script>
+	
+</head>
+<body onload="WbS()">
+   <div class="container">
+      <h3>Работа WEB Socket с каналом ... </h3>
+      <h1 id="soob" class="soob"> Канал закрыт ... </h1>
+   </div>
+</body>
+</html> 
 ```
 
 
