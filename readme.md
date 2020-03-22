@@ -25,16 +25,16 @@ var Mss = make(chan string,100)
 func main() {
  
     // Объявление сокетов 
+    // Здесь ловим канал в скоетах
+    // Сокет для прослушивания канала в HTML 
+    http.Handle("/ehs",          websocket.Handler(echoHandChan))    
     http.Handle("/echo",         websocket.Handler(echoHandler))
     http.Handle("/eh",           websocket.Handler(echoHand))
 
     // Имитация отправки в канал 
-    // http.HandleFunc("/chan/",  echoHandChans)
-    http.HandleFunc("/in/",      echoHandChans_inp)          // Отправка в канал сообщения на стороне сервера
-    http.HandleFunc("/out/",     echoHandChans_read)         // Чтение канала
-
-    // Здесь ловим канал в скоетах
-    http.Handle("/ehs",        websocket.Handler(echoHandChan))    // Сокет для прослушивания канала в HTML 
+ // http.HandleFunc("/chan/",     echoHandChans)
+    http.HandleFunc("/in/",       echoHandChans_inp)          // Отправка в канал сообщения на стороне сервера
+    http.HandleFunc("/out/",      echoHandChans_read)         // Чтение канала
 
     fmt.Println("Server start 4444 port...")
     err := http.ListenAndServe(":4444", nil)
