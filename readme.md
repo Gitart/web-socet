@@ -30,11 +30,11 @@ func main() {
 
     // Имитация отправки в канал 
     // http.HandleFunc("/chan/",  echoHandChans)
-    http.HandleFunc("/in/",      echoHandChans_inp)          // Отправка в канал сообщения
+    http.HandleFunc("/in/",      echoHandChans_inp)          // Отправка в канал сообщения на стороне сервера
     http.HandleFunc("/out/",     echoHandChans_read)         // Чтение канала
 
     // Здесь ловим канал в скоетах
-    http.Handle("/ehs",        websocket.Handler(echoHandChan))    // Сокет для прослушивания канала 
+    http.Handle("/ehs",        websocket.Handler(echoHandChan))    // Сокет для прослушивания канала в HTML 
 
     fmt.Println("Server start 4444 port...")
     err := http.ListenAndServe(":4444", nil)
@@ -84,7 +84,24 @@ func echoHandChans_inp(w http.ResponseWriter, r *http.Request){
 }
 ```
 
-
+### Чтение сообщений из канала на сервере
+```golang
+// *******************************************************************
+// Чтение канала сообщения
+// http://localhost:4444/out/
+// *******************************************************************
+// Чтение из канала
+func echoHandChans_read(w http.ResponseWriter, r *http.Request){
+   for{
+   select {
+     case res:=<-Mss : 
+     	fmt.Println(res)
+     // default : 
+     // 	fmt.Println("No")
+   }
+}
+}
+```
 
 ## Html айл
 
