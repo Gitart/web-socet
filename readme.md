@@ -36,8 +36,7 @@ func main() {
     // Здесь ловим канал в скоетах
     // Сокет для прослушивания канала в HTML 
     http.Handle("/ehs",          websocket.Handler(echoHandChan))    
-    http.Handle("/echo",         websocket.Handler(echoHandler))
-    http.Handle("/eh",           websocket.Handler(echoHand))
+ 
 
     // Имитация отправки в канал 
  // http.HandleFunc("/chan/",     echoHandChans)
