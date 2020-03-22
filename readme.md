@@ -103,7 +103,34 @@ func echoHandChans_read(w http.ResponseWriter, r *http.Request){
 }
 ```
 
-## Html айл
+### Еще один пример посылки сообщений в канал на стороне сервера
+
+```golang
+// Новости можно еще больше переключать
+// Пример создания нового соединения
+// Новости получают из этого сообщения
+func echoHandler(ws *websocket.Conn) {
+       fmt.Println("Ok")
+
+	msg    := make([]byte, 512)
+	n, err := ws.Read(msg)
+
+	if err != nil {
+   	   log.Fatal(err)
+	}
+
+	fmt.Printf("Receive: %s\n", msg[:n])
+	m, err := ws.Write(msg[:n])
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Send: %s\n", msg[:m])
+}
+```
+
+## Html файл
 
 ```html
 <script type="text/javascript">
@@ -133,6 +160,28 @@ function WbS(){
                };
       }
 </script>  
-
-
 ```
+
+
+### Testing with Curl
+```sh
+curl --location --request GET http://localhost:4444/in/Start message to chanel
+sleep 5
+curl --location --request GET http://localhost:4444/in/Second message to chanel
+sleep 15
+curl --location --request GET http://localhost:4444/in/Tree message to chanel
+sleep 5
+curl --location --request GET http://localhost:4444/in/And also message to chanel
+sleep 15
+curl --location --request GET http://localhost:4444/in/Five message to chanel
+sleep 25
+curl --location --request GET http://localhost:4444/in/Six message to chanel
+sleep 35
+curl --location --request GET http://localhost:4444/in/Seven message to chanel
+```
+
+
+
+
+
+
