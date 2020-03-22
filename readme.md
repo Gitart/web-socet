@@ -2,8 +2,7 @@
 
 ## Server
 
-
-## Library
+### Library
 ```golang
 package main
 
@@ -21,8 +20,33 @@ import (
 var Mss = make(chan string,100)
 ```
 
+### Routing 
+```golang
+func main() {
+ 
+    // Объявление сокетов 
+    http.Handle("/echo",         websocket.Handler(echoHandler))
+    http.Handle("/eh",           websocket.Handler(echoHand))
 
-Пример создания нововго соединения
+    // Имитация отправки в канал 
+    // http.HandleFunc("/chan/",  echoHandChans)
+    http.HandleFunc("/in/",      echoHandChans_inp)          // Отправка в канал сообщения
+    http.HandleFunc("/out/",     echoHandChans_read)         // Чтение канала
+
+    // Здесь ловим канал в скоетах
+    http.Handle("/ehs",        websocket.Handler(echoHandChan))    // Сокет для прослушивания канала 
+
+    fmt.Println("Server start 4444 port...")
+    err := http.ListenAndServe(":4444", nil)
+
+    if err != nil {
+	log.Println("ListenAndServe: " + err.Error())
+    }
+}
+```
+
+### WEB Socket
+Пример создания нового соединения
 Новости получают из этого сообщения
 
 ```golang
@@ -36,6 +60,31 @@ fmt.Println("Channel Open ")
    }
 }
 ```
+
+### Посылка сообщения в канала на сервере
+```golang
+
+// *******************************************************************
+// Запись в канал сообщения
+// http://localhost:4444/in/Пример сообщения посылаемого в канал
+// *******************************************************************
+func echoHandChans_inp(w http.ResponseWriter, r *http.Request){
+   pt:= r.URL.Path[len("/in/"):]
+   
+   Ii++
+   I:=fmt.Sprintf("%v",Ii)
+
+   // Отправка в канал сообщения
+   go func (){
+       Mss  <- I + " " + pt
+    }()
+
+   
+    log.Println("Сообщение отпарвлено в канал ", I + " " + pt)
+}
+```
+
+
 
 ## Html айл
 
